@@ -1,33 +1,45 @@
 from inventory_report.reports.simple_report import SimpleReport
 
-# from collections import Counter
-
 
 class CompleteReport(SimpleReport):
-    #     @classmethod
-    # def get_companies_stock(cls, list):
-    #     companies = dict()
-    #     for i in list:
-    #         for k, v in companies.items():
-    #             companies.setdefault(k, set()).add(v)
-    #     companies_stock = {k: len(v) for k, v in companies.items()}
-    #     return companies_stock
     @classmethod
-    def generate(cls, report) -> str:
-        simple_report = super().generate(report)
-        # print('simple report 1', simple_report)
-        companies = [company["nome_da_empresa"] for company in report]
-        print(companies)
+    def company_stock(cls, products):
+        stock = {}
+        for product in products:
+            if product["nome_da_empresa"] not in stock:
+                stock[product["nome_da_empresa"]] = 0
+            stock[product["nome_da_empresa"]] += 1
+        return stock
 
-        stock_report = "Produtos estocados por empresa: \n"
+    @classmethod
+    def get_companies_stock(cls, products):
+        stock = cls.company_stock(products)
 
-        for company in companies:
-            stock_report += f"- {company}: {companies[1]}\n"
-        # print(stock_report)
+        # stock_report = "Produtos estocados por empresa:\n"
+        stock_report = ""
 
-        return f"{simple_report}\n" f"{stock_report}"
+        for product in stock.items():
+            stock_report += f"- {product[0]}: {product[1]}\n"
+        return stock_report
 
-        # print('Testando')
+    # @classmethod
+    # def generate(cls, products) -> str:
+    #     simple_report = super().generate(products)
+    #     print('simple report 1', simple_report)
+    #     return f"{simple_report}\n" f"{cls.get_companies_stock}"
+
+    # print('Testando')
+
+    @classmethod
+    def generate(cls, products):
+        oldest_manufacturing_date = cls.oldest_manufacturing_date(products)
+        nearest_expiration_date = cls.nearest_expiration_date(products)
+        company_with_more_products = cls.company_with_more_products(products)
+        get_companies_stock = cls.get_companies_stock(products)
+        return f"""Data de fabricação mais antiga: {oldest_manufacturing_date}
+Data de validade mais próxima: {nearest_expiration_date}
+Empresa com mais produtos: {company_with_more_products}
+Produtos estocados por empresa:\n{get_companies_stock}"""
 
 
 # PARAMETRO RECEBIDO
