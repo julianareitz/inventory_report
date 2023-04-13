@@ -9,12 +9,12 @@ report = {"simples": SimpleReport, "completo": CompleteReport}
 
 class Inventory:
     @classmethod
-    def import_data(cls, filepath, report_type):
-        if filepath.endswith(".csv"):
-            product_list = CsvImporter.import_data(filepath)
-        elif filepath.endswith(".json"):
-            product_list = JsonImporter.import_data(filepath)
-        elif filepath.endswith(".xml"):
-            product_list = XmlImporter().read_xml_file(filepath)
+    def import_data(cls, path, report_type):
+        if path.endswith(".csv"):
+            product_list = CsvImporter.import_data(path)
+        elif path.endswith(".json"):
+            product_list = JsonImporter.import_data(path)
+        elif path.endswith(".xml"):
+            product_list = XmlImporter().read_xml_file(path)
 
         return report[report_type].generate(product_list)
