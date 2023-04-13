@@ -1,4 +1,5 @@
 from inventory_report.reports.simple_report import SimpleReport
+
 # from collections import Counter
 
 
@@ -15,8 +16,7 @@ class CompleteReport(SimpleReport):
     def generate(cls, report) -> str:
         simple_report = super().generate(report)
         # print('simple report 1', simple_report)
-        companies = (
-            [company["nome_da_empresa"] for company in report])
+        companies = [company["nome_da_empresa"] for company in report]
         print(companies)
 
         stock_report = "Produtos estocados por empresa: \n"
@@ -25,12 +25,10 @@ class CompleteReport(SimpleReport):
             stock_report += f"- {company}: {companies[1]}\n"
         # print(stock_report)
 
-        return (
-            f"{simple_report}\n"
-            f"{stock_report}"
-        )
+        return f"{simple_report}\n" f"{stock_report}"
 
         # print('Testando')
+
 
 # PARAMETRO RECEBIDO
 # [
