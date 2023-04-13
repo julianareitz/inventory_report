@@ -15,6 +15,6 @@ class Inventory:
         elif path.endswith(".json"):
             product_list = JsonImporter.import_data(path)
         elif path.endswith(".xml"):
-            product_list = XmlImporter().read_xml_file(path)
+            product_list = XmlImporter().import_data(path)
 
         return report[report_type].generate(product_list)
